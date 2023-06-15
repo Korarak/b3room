@@ -117,7 +117,7 @@ def google_login(request):
     authorization_url = 'https://accounts.google.com/o/oauth2/v2/auth'
     params = {
         'client_id': settings.GOOGLE_CLIENT_ID,
-        'redirect_uri': 'http://127.0.0.1:8000/google/callback',  # Change this to your callback URL
+        'redirect_uri': 'https://loeitechbookingproduction.up.railway.app/google/callback',  # Change this to your callback URL
         'response_type': 'code',
         'scope': 'openid email profile',
         'prompt': 'select_account',
@@ -136,7 +136,7 @@ def google_callback(request):
         'code': code,
         'client_id': settings.GOOGLE_CLIENT_ID,
         'client_secret': settings.GOOGLE_CLIENT_SECRET,
-        'redirect_uri': 'http://127.0.0.1:8000/google/callback',  # Change this to your callback URL
+        'redirect_uri': 'https://loeitechbookingproduction.up.railway.app/google/callback',  # Change this to your callback URL
         'grant_type': 'authorization_code',
     }
     response = requests.post(token_url, data=data)
