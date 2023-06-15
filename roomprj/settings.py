@@ -21,7 +21,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR,'templates')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-$pwtk5d8_ciwt6*@=yue1jds-l8#*j&%=bo(_cv*ea!#0y#@@g'
-
+CSRF_TRUSTED_ORIGINS = ['https://loeitechbookingproduction.up.railway.app/']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
