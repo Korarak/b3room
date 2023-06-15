@@ -1,1 +1,1 @@
-web: gunicorn booking.wsgi --log-file -
+web: gunicorn roomprj.wsgi --log-file -
