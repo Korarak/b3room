@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}RoomBook{% endblock %}</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}" >
+    {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-bottom">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">งานสื่อ@LoeiTech</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapsibleNavbar"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/booklist">รายการจอง</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/bookform">จองห้อง</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="#"
+                >กำลังใช้งานในชื่อ {{user.first_name}} {{user.last_name}}
+              </a>
+            </li>
+            {% endif %} {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a href="{% url 'logout' %}" class="btn btn-light"> ออกจากระบบ</a>
+            </li>
+            {% else %}
+            <li class="nav-item dropdown">
+              <a class="nav-link" href="/showlogin">เข้าสู่ระบบ</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+        {% comment %}
+        <ul class="navbar-nav">
+          {% endcomment %} {% comment %}
+        </ul>
+        {% endcomment %}
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <br />
+      <div class="mt-0 p-2 bg-dark text-white rounded">
+        <h1>ระบบจองห้องประชุม</h1>
+      </div>
+      {% bootstrap_messages %} {% block content %} {% comment %}
+      <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+      <a href="{% url 'logout' %}">Logout</a>
+      {% endcomment %} {% endblock content %}
+    </div>
+  </body>
+</html>

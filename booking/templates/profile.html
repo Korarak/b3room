@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Profile</title>
+</head>
+<body>
+    <h1>User Profile</h1>
+    <h2>Name: {{ user.first_name }}{{ user.last_name }}</h2>
+    <h3>Email: {{ user.email }}{{ user_profile.profile_picture }}</h3>
+    <img src="{{ user_profile.profile_picture }}" alt="Profile Picture">
+    <br>
+    {% if user.is_authenticated %}
+    <p>Welcome, {{ user.first_name }}{{ user.last_name }}! You are logged in.</p>
+    <a href="/logout/">Logout</a>
+{% else %}
+    <a href="/google/login/">Login with Google</a>
+{% endif %}
+<a href="{% url 'revoke_google_oauth' %}">Revoke Google OAuth</a>
+</body>
+</html>

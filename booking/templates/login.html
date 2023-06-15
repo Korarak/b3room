@@ -1,0 +1,22 @@
+{% include 'home.html' %}
+<div class="container"><br>
+<h3>เข้าสู่ระบบเพื่อทำรายการจอง</h3>
+<h5>เข้าสู่ระบบด้วยบัญชี google</h5>
+    <div class="row">
+        <div class="col-md-3">
+          
+          {% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}! You are logged in.</p>
+    <a href="/logout/">Logout</a>
+{% else %}
+<a class="btn btn-outline-dark" href="/google/login/" role="button" style="text-transform:none">
+  <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" 
+  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+  Login with Google
+</a>
+{% endif %}
+        </div>
+      </div>
+      <p></p>
+<p><a href="/" class="btn btn-danger">กลับหน้าหลัก</a></p>
+</div>
