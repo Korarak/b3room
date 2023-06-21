@@ -9,6 +9,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib  import messages
 from .models import *
+import environ
+import os
 import json
 import requests
 import google.auth.transport.requests
@@ -117,7 +119,7 @@ def google_login(request):
     authorization_url = 'https://accounts.google.com/o/oauth2/v2/auth'
     params = {
         'client_id': settings.GOOGLE_CLIENT_ID,
-        'redirect_uri': 'https://loeitechbookingproduction.up.railway.app/google/callback',  # Change this to your callback URL
+        'redirect_uri': os.environ.get('GOOGLE_URI_CALLBACK'),  # Change this to your callback URL
         'response_type': 'code',
         'scope': 'openid email profile',
         'prompt': 'select_account',
@@ -136,7 +138,7 @@ def google_callback(request):
         'code': code,
         'client_id': settings.GOOGLE_CLIENT_ID,
         'client_secret': settings.GOOGLE_CLIENT_SECRET,
-        'redirect_uri': 'https://loeitechbookingproduction.up.railway.app/google/callback',  # Change this to your callback URL
+        'redirect_uri': os.environ.get('GOOGLE_URI_CALLBACK'),  # Change this to your callback URL
         'grant_type': 'authorization_code',
     }
     response = requests.post(token_url, data=data)
