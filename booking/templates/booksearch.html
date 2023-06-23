@@ -1,0 +1,22 @@
+{% include 'home.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <ul class="navbar-nav me-auto">
+            <form action="Search" class="d-flex" method="POST">
+              {% csrf_token %}
+              <div class="input-group mb-3">
+                <div class="form-floating mb-1 mt-1">
+                    <input type="date" class="form-control" id="date" placeholder="Enter date" name="date" aria-label="ค้นหารายการจอง" aria-describedby="button-addon2">
+                <button class="btn btn-primary" type="submit" id="button-addon2">ค้นหา</button>
+                    <label for="date">date</label>
+                  </div>
+              </div>
+            </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

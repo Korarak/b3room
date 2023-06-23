@@ -37,10 +37,10 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/booklist"> {% bs_icon 'card-list' %} รายการจอง</a>
+              <a class="nav-link active" href="/booklist"> {% bs_icon 'card-list' %} รายการจอง</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/bookform"> {% bs_icon 'journal-plus' %} จองห้อง</a>
+              <a class="nav-link {% if request.path == '/bookform/' %}active{% endif %}" href="/bookform"> {% bs_icon 'journal-plus' %} จองห้อง</a>
             </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
@@ -65,7 +65,7 @@
         {% endcomment %}
       </div>
     </nav>
-    <div class="container-fluid">
+    <div class="container">
       <br />
       <br />
       {% if user.is_authenticated %}
@@ -73,10 +73,12 @@
         <strong>สำเร็จ</strong> ยินดีต้อนรับ  <a href="#" class="alert-link">{{user.first_name}} {{user.last_name}}</a>
       </div>
       {% endif %}
-      {% bootstrap_messages %} {% block content %} {% comment %}
-      <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
-      <a href="{% url 'logout' %}">Logout</a>
-      {% endcomment %} {% endblock content %}
+      {% bootstrap_messages %} 
+      {% block content %}
+
+
+
+      {% endblock content %}
     </div>
   </body>
 </html>

@@ -35,6 +35,9 @@ def home(request):
 def showlogin(request):
     return render(request,"login.html")
 
+def booksearch(request):
+    return render(request,"booksearch.html")
+
 def check_booking(room ,date, start_time, end_time):
     c_date = date.date()
     c_start_time = start_time.time()
