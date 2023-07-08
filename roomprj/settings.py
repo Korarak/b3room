@@ -27,8 +27,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 #'django-insecure-$pwtk5d8_ciwt6*@=yue1jds-l8#*j&%=bo(_cv*ea!#0y#@@g'
-
-CSRF_TRUSTED_ORIGINS = ['https://loeitechbookingproduction.up.railway.app/']
+CSRF_TRUSTED_ORIGINS = ['https://loeitechbookingproduction.up.railway.app']
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = env('DEBUG')
