@@ -22,6 +22,9 @@ def profile(request):
     return render(request, 'profile.html',context)
 
 def booklist(request):
+    if request.method == "POST":
+        if request.POST.get("search_date"):
+            context = {'book_detail' : book_dtl.objects.all().order_by('-sdate')}
     context = {'book_detail' : book_dtl.objects.all().order_by('-sdate')}
     return render(request,'booklist.html',context)
 

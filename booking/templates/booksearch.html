@@ -3,20 +3,23 @@
 {% load bootstrap_icons %}
 {% block content %}
 <div class="container">
+  
   <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <ul class="navbar-nav me-auto">
-            <form action="Search" class="d-flex" method="POST">
+            <div class="col-md-6 offset-md-3">
+              <p class="h5">ตรวจสอบรายการจอง</p>
+              <form action="Search" class="d-flex" method="POST">
               {% csrf_token %}
               <div class="input-group mb-3">
-                <div class="form-floating mb-1 mt-1">
-                    <input type="date" class="form-control" id="date" placeholder="Enter date" name="date" aria-label="ค้นหารายการจอง" aria-describedby="button-addon2">
-                <button class="btn btn-primary" type="submit" id="button-addon2">ค้นหา</button>
-                    <label for="date">date</label>
-                  </div>
+                <span class="input-group-text">วันที่</span>
+                <input type="date" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-success" type="submit" id="button-addon2">ค้นหา</button>
               </div>
             </form>
-    </div>
+          </div>
+          
+          <div class="col-6 col-sm-4">
+
+          </div>
   </div>
 </div>
 {% endblock %}

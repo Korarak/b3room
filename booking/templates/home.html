@@ -9,20 +9,22 @@
     <title>{% block title %}RoomBook{% endblock %}</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}" >
     {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
-    <style>nav .navbar-nav li a{
-      color: white !important;
-      }</style>
   </head>
   <body>
+    {% comment %} fix top navbar {% endcomment %}
     <nav class="navbar navbar-expand-md bg-success navbar-dark fixed-top">
       <div class="container-fluid">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="navbar-brand" href="/"> {% bs_icon 'house-door-fill' %} งานสื่อ@LoeiTech</a>
+          <a class="navbar-brand" href="/"> {% bs_icon 'house' %} งานสื่อ@LoeiTech</a>
       </li>
     </ul>
   </div>
     </nav>
+    {% comment %} nav tab {% endcomment %}
+    
+
+    {% comment %} fix bottom nav bar {% endcomment %}
     <nav class="navbar navbar-expand-md bg-success navbar-dark fixed-bottom">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">เมนู</a>
@@ -37,7 +39,7 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="/booklist"> {% bs_icon 'card-list' %} รายการจอง</a>
+              <a class="nav-link {% if request.path == '/booklist/' %}active{% endif %}" href="/booklist"> {% bs_icon 'card-list' %} รายการจอง</a>
             </li>
             <li class="nav-item">
               <a class="nav-link {% if request.path == '/bookform/' %}active{% endif %}" href="/bookform"> {% bs_icon 'journal-plus' %} จองห้อง</a>
@@ -69,7 +71,7 @@
       <br />
       <br />
       {% if user.is_authenticated %}
-      <div class="alert alert-light">
+      <div class="alert alert-success">
         <strong>สำเร็จ</strong> ยินดีต้อนรับ  <a href="#" class="alert-link">{{user.first_name}} {{user.last_name}}</a>
       </div>
       {% endif %}
