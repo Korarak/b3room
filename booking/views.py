@@ -9,12 +9,26 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib  import messages
 from .models import *
-import environ
+#import environ
 import os
 import json
 import requests
 import google.auth.transport.requests
 from datetime import datetime, timedelta
+
+def search(request):
+    if request.method == "POST":
+        if request.POST.get("search_date"):
+            search_key = request.POST.get("search_date")
+            qry_book = book_dtl.objects.filter(sdate=search_key).order_by('-sdate')
+            print(qry_book)
+            if not qry_book:
+                print(qry_book)
+                messages.warning(request,'ไม่พบรายการจองในวันดังกล่าว')
+                return render(request,'booksearch.html')
+            else:
+                context = {'book_detail' : qry_book}
+            return render(request,'booksearch.html',context)
 
 def profile(request):
     user_profile = UserProfile.objects.get(infosub=request.user)
@@ -24,9 +38,16 @@ def profile(request):
 def booklist(request):
     if request.method == "POST":
         if request.POST.get("search_date"):
+            context = {'book_detail' : book_dtl.objects.all().order_by('-sdate')[:20]}
+    context = {'book_detail' : book_dtl.objects.all().order_by('-sdate')[:20]}
+    return render(request,'booklist.html',context)
+
+def booktable(request):
+    if request.method == "POST":
+        if request.POST.get("search_date"):
             context = {'book_detail' : book_dtl.objects.all().order_by('-sdate')}
     context = {'book_detail' : book_dtl.objects.all().order_by('-sdate')}
-    return render(request,'booklist.html',context)
+    return render(request,'booktable.html',context)
 
 def bookdetail(request,id):
     fetch_book = book_dtl.objects.get(pk=id)
@@ -45,20 +66,27 @@ def check_booking(room ,date, start_time, end_time):
     c_date = date.date()
     c_start_time = start_time.time()
     c_end_time = end_time.time()
-    print(type(room))
+    """ print(type(room))
     print(type(c_date))
     print(type(c_start_time))
     print(type(c_end_time))
-    print("+++++++++++++++++++")
+    print("+++++++++++++++++++") """
     book_fetch = book_dtl.objects.all()
     for book_data in book_fetch:
+        """ 
         print((book_data.room_id_id))
         print(type(book_data.sdate))
         print(type(book_data.stime))
-        print(type(book_data.etime))
+        print(type(book_data.etime)) """
         if book_data.room_id_id == int(room) and book_data.sdate == c_date and book_data.stime <= c_end_time and book_data.etime >= c_start_time:
             return False
     return True
+
+def convert_minutes_to_hms(minutes):
+    hours = minutes // 60
+    remaining_minutes = minutes % 60
+    #seconds = remaining_minutes * 60
+    return f"{hours:02}:{remaining_minutes:02}"
 
 @login_required(login_url='/showlogin')
 def bookform(request):
@@ -71,11 +99,13 @@ def bookform(request):
             print(request.POST.get('sdate'))
             room_name = request.POST.get('room_name')
             qry_sdate = datetime.strptime(request.POST.get('sdate'), "%Y-%m-%d")
-            minus_stime = datetime.strptime((request.POST.get('stime')), "%H:%M")
-            minus_etime = datetime.strptime((request.POST.get('etime')), "%H:%M")
+            formatted_stime = convert_minutes_to_hms(int(request.POST.get('stime')))
+            minus_stime = datetime.strptime(formatted_stime, "%H:%M")
+            formatted_etime = convert_minutes_to_hms(int(request.POST.get('etime')))
+            minus_etime = datetime.strptime(formatted_etime, "%H:%M")
             print((qry_sdate))
-            print((minus_stime))
-            print((minus_etime))
+            print((formatted_stime))
+            print((formatted_etime))
             print(request.POST.get('txtusername'))
             print(request.POST.get('txttel'))
             print(request.POST.get('other'))
@@ -85,18 +115,18 @@ def bookform(request):
             table.purposename = request.POST.get('purposename')
             table.txtonfloor = request.POST.get('txtonfloor')
             table.sdate = request.POST.get('sdate')
-            table.stime = request.POST.get('stime')
-            table.etime = request.POST.get('etime')
+            table.stime = minus_stime
+            table.etime = minus_etime
             table.txtusername = request.POST.get('txtusername')
             table.txttel = request.POST.get('txttel')
             table.other = request.POST.get('other')
             if check_booking(room_name, qry_sdate, minus_stime, minus_etime):
                 print("จองได้")
                 table.save()
-                messages.success(request,'จองสำเร็จ')
+                messages.success(request,'จองสำเร็จ ตรวจสอบข้อมูลที่หน้ารายการจอง')
             else:
                 print("ชน")
-                messages.warning(request,'ไม่สำเร็จ วันเวลาที่เลือกถูกลงจองแล้ว')                
+                messages.warning(request,'ไม่สำเร็จ วันเวลาดังกล่าวถูกจองไปแล้ว กด "กลับ" เพื่อแก้ไข') 
         else:
             messages.warning(request,'ไม่สำเร็จ กรุณาตรวจสอบข้อมูล')
         return render(request,"bookform.html",context)

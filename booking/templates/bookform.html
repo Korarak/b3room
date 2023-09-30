@@ -2,7 +2,8 @@
 <div class="container mt-3">
   <h3>แบบฟอร์มจองใช้งานห้องโสต</h3>
   <p>กรุณากรอกข้อมูลให้ครบถ้วน</p>
-  <form action="" class="was-validated" method="post">
+  <button onclick="history.back()" class="btn btn-danger">กลับ</button>
+  <form action="" class="was-validated" method="post" onsubmit='validateForm()'> 
     {% csrf_token %}
     <div class="col-md-3">
       <label for="validationCustom01" class="form-label"
@@ -78,8 +79,8 @@
       </div>
     </div>
 
-    <div class="row g-3">
-      <div class="col">
+    
+{% comment %}       <div class="col">
         <label for="stime" class="form-label">เริ่มเวลา</label>
         <input
           type="time"
@@ -99,10 +100,25 @@
           name="etime"
           required
         />
+
         <div class="invalid-feedback">A.M.(ก่อนเที่ยง)P.M.(หลังเที่ยง)</div>
+      </div> {% endcomment %}
+{% comment %} timerange input {% endcomment %}
+<p></p>
+    <div class="row g-3">
+      <div class="col-md-6 offset-md-0">
+        <label for="stimeRange" class="form-label">เริ่มเวลา :</label>
+        <input type="range" class="form-range" min="465" max="1200" step="15" id="stimeRange" name="stime" value="0">
+        <p class="mt-0">เวลา : <span id="selectedsTime"></span></p>
+        
+      </div>
+      <div class="col-md-6 offset-md-0">
+        <label for="etimeRange" class="form-label">จนถึงเวลา :</label>
+        <input type="range" class="form-range" min="465" max="1200" step="15" id="etimeRange" name="etime" value="0">
+        <p class="mt-0">เวลา : <span id="selectedeTime"></span></p>
       </div>
     </div>
-
+{% comment %} timerange input {% endcomment %}
     <div class="mb-3 mt-3">
       <label for="txtusername" class="form-label">ชื่อ - สกุลผู้จอง</label>
       <input
@@ -111,6 +127,7 @@
         id="txtusername"
         placeholder="ระบุข้อความ"
         name="txtusername"
+        value="{{user.first_name}} {{user.last_name}}"
         required
       />
       <div class="invalid-feedback">ระบุชื่อด้วย</div>
@@ -151,3 +168,57 @@
     <p></p>
   </div>
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const timeRange = document.getElementById("stimeRange");
+  const selectedTime = document.getElementById("selectedsTime");
+
+  timeRange.addEventListener("input", function () {
+    const minutes = parseInt(this.value, 10);
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    const ampm = "น.";
+    const displayHours = hours % 24 === 0 ? 24 : hours % 24;
+    const displayMinutes = mins < 10 ? "0" + mins : mins;
+
+    selectedsTime.innerText = `${displayHours}:${displayMinutes} ${ampm}`;
+  });
+});
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const timeRange = document.getElementById("etimeRange");
+    const selectedTime = document.getElementById("selectedeTime");
+  
+    timeRange.addEventListener("input", function () {
+      const minutes = parseInt(this.value, 10);
+      const hours = Math.floor(minutes / 60);
+      const mins = minutes % 60;
+      const ampm = "น.";
+      const displayHours = hours % 24 === 0 ? 24 : hours % 24;
+      const displayMinutes = mins < 10 ? "0" + mins : mins;
+  
+      selectedeTime.innerText = `${displayHours}:${displayMinutes} ${ampm}`;
+    });
+  });
+    </script>
+  
+  <script>
+    function validateForm() {
+          const stimeRange = document.getElementById('stimeRange');
+          const etimeRange = document.getElementById('etimeRange');
+          if (stimeRange.value === stimeRange.min){
+            alert('กรุณาตั้งค่าเวลาเริ่มด้วย');
+          return false;
+          }
+          if (etimeRange.value === etimeRange.min){
+            alert('กรุณาตั้งค่าเวลาสิ้นสุดด้วย');
+          return false;
+          }
+          {% comment %} if (stimeRange.value >= etimeRange.value){
+            alert('เวลาไม่ถูกต้อง');
+          return false;
+          } {% endcomment %}
+          return true;
+        }
+    </script>

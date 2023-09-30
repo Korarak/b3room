@@ -16,7 +16,7 @@
       <div class="container-fluid">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="navbar-brand" href="/"> {% bs_icon 'house' %} งานสื่อ@LoeiTech</a>
+          <a class="navbar-brand" href="/"> {% bs_icon 'house' %} โปรแกรมจองห้องประชุม v1</a>
       </li>
     </ul>
   </div>
@@ -27,22 +27,23 @@
     {% comment %} fix bottom nav bar {% endcomment %}
     <nav class="navbar navbar-expand-md bg-success navbar-dark fixed-bottom">
       <div class="container-fluid">
+        <a class="navbar-brand" href="/">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar" aria-controls="collapsibleNavbar" aria-expanded="false" aria-label="Toggle Navigation">
         <a class="navbar-brand" href="/">เมนู</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapsibleNavbar"
-        >
-        <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
           <ul class="navbar-nav mr-auto">
+            {% comment %} <li class="nav-item">
+              <a class="nav-link {% if request.path == '/booksearch/' %}active{% endif %}" href="/booksearch"> {% bs_icon 'search-heart' %} ค้นหา</a>
+            </li> {% endcomment %}
             <li class="nav-item">
               <a class="nav-link {% if request.path == '/booklist/' %}active{% endif %}" href="/booklist"> {% bs_icon 'card-list' %} รายการจอง</a>
             </li>
             <li class="nav-item">
               <a class="nav-link {% if request.path == '/bookform/' %}active{% endif %}" href="/bookform"> {% bs_icon 'journal-plus' %} จองห้อง</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link" href="#"> {% bs_icon 'clipboard-data-fill' %} สรุปรายงาน</a>
             </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
@@ -57,6 +58,7 @@
             <li class="nav-item dropdown">
             <a class="nav-link" href="/showlogin"> {% bs_icon 'box-arrow-in-right' %} เข้าสู่ระบบ</a>
             </li>
+
             {% endif %}
           </ul>
         </div>
@@ -68,15 +70,10 @@
       </div>
     </nav>
     <div class="container">
-      <br />
-      <br />
-      {% if user.is_authenticated %}
-      <div class="alert alert-success">
-        <strong>สำเร็จ</strong> ยินดีต้อนรับ  <a href="#" class="alert-link">{{user.first_name}} {{user.last_name}}</a>
-      </div>
-      {% endif %}
-      {% bootstrap_messages %} 
+      <br><br>
       {% block content %}
+      {% bootstrap_messages %} 
+      
 
 
 

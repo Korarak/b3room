@@ -1,0 +1,45 @@
+{% include 'home.html' %}
+{% include 'booksearch.html' %}
+{% load bootstrap_icons %}
+<div class="container mt-3">
+  <div class="row">
+    <div class="col">
+      <a href="/booktable/" class="btn btn-success">{% bs_icon 'table' %}ตาราง</a>
+      <a href="/booklist/" class="btn btn-success">{% bs_icon 'card-list' %}การ์ด</a>
+    </div>
+    <div class="col">
+      {% comment %} <a href="/booklist/" class="btn btn-warning">การ์ด</a> {% endcomment %}
+    </div>
+  </div><p></p>
+  <h3>รายการจองใช้งานห้องโสตทัศนศึกษา</h3>
+  <table class="table table-hover table-sm">
+  <thead class="table-light">
+  {% comment %} <th>#</th> {% endcomment %}
+  <th>วันที่</th>
+  <th>ห้อง</th>
+  <th>การใช้งาน</th>
+  <th>ผู้จอง</th>
+  <th>ทางเลือก</th>
+  </thead> <tbody>
+  {% for fetch_book in book_detail %}
+   
+  <tr>
+    {% comment %} <td>{{fetch_book.book_id}}</td> {% endcomment %}
+    <td>{{fetch_book.sdate}}</td>
+    <td>{{fetch_book.room_id.room_name}}</td>
+    <td>{{fetch_book.purposename}}</td>
+    <td>{{fetch_book.txtusername}}</td>
+    <td><a href="#" class="btn btn-danger"> {{fetch_book.txttel}} </a> <a href="/bookdetail/{{fetch_book.book_id}}" class="btn btn-primary"> รายละเอียด </a></td>
+  </tr>  
+  
+  {% endfor %}
+</tbody>
+</table>
+  <div class="mt-4 p-5 bg-white text-white rounded">
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+  </div>
+</div>

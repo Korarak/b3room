@@ -3,23 +3,57 @@
 {% load bootstrap_icons %}
 {% block content %}
 <div class="container">
-  
   <div class="row">
-            <div class="col-md-6 offset-md-3">
-              <p class="h5">ตรวจสอบรายการจอง</p>
-              <form action="Search" class="d-flex" method="POST">
-              {% csrf_token %}
-              <div class="input-group mb-3">
-                <span class="input-group-text">วันที่จอง</span>
-                <input type="date" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-                <button class="btn btn-outline-success" type="submit" id="button-addon2">ค้นหา</button>
-              </div>
-            </form>
-          </div>
-          
-          <div class="col-6 col-sm-4">
-
-          </div>
+    <div class="col">
+      <p></p>
+      <a class="btn btn-success" href="/bookform"> {% bs_icon 'journal-plus' %} จองใช้ห้อง</a>
+      <p></p>
+    </div>
+    <div class="col">
+    </div>
   </div>
+  <div class="row">
+    <div class="col-12">
+      <form action="/search/" class="d-flex" method="POST">
+      {% csrf_token %}
+      <div class="input-group mt-3 mb-3">
+        <span class="btn btn-success">ค้นหา</span>
+        <input type="date" class="form-control" id="search_date" name="search_date" required>
+        <button class="btn btn-outline-success" type="submit" id="button-addon2">ค้นหา</button>
+      </div>
+    </form>
+    </div>
+    <div class="col">
+    </div>
+    <div class="col">
+    </div>
+  </div>
+{% if request.method == "POST" %}
+<div class="container mt-3">
+    <h3>ผลการค้นหา</h3>
+    {% for fetch_book in book_detail %}
+    <div class="card">
+      <div class="card-header">#{{fetch_book.book_id}} {{fetch_book.room_id.room_name}} เพื่อ {{fetch_book.purposename}}</div>
+      <div class="card-body">
+        <h5 class="card-title">{{fetch_book.sdate}}</h5>
+        <p class="card-text">
+          เริ่มเวลา : {{fetch_book.stime}} น. , ถึงเวลา : {{fetch_book.etime}} น.
+          <br>
+          ผู้จอง : {{fetch_book.txtusername}}
+          <br>
+          โทร <a href="#" class="btn btn-danger"> {{fetch_book.txttel}} </a> <a href="/bookdetail/{{fetch_book.book_id}}" class="btn btn-primary"> รายละเอียด </a>
+        </p>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="mt-4 p-5 bg-white text-white rounded">
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
+    </div>
+  </div>
+  {% endif %}
 </div>
 {% endblock %}

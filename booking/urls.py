@@ -2,11 +2,13 @@ from django.urls import path,include
 from . import views
 from .views import logout_view,revoke_google_oauth
 urlpatterns = [
-    path('',views.booksearch),
+    path('',views.booklist),
     path('profile/',views.profile),
     path('bookform/',views.bookform),
     path('booksearch/',views.booksearch),
+    path('search/',views.search),
     path('booklist/',views.booklist),
+    path('booktable/',views.booktable),
     path('bookdetail/<int:id>',views.bookdetail),
     path('showlogin/',views.showlogin),
     path('redirected-view/',views.redirected_view),
