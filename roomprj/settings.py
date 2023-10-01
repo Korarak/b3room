@@ -27,7 +27,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 #'django-insecure-$pwtk5d8_ciwt6*@=yue1jds-l8#*j&%=bo(_cv*ea!#0y#@@g'
-CSRF_TRUSTED_ORIGINS = ['.vercel.app']
+CSRF_TRUSTED_ORIGINS = ['https://b3room-production.up.railway.app']
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = env('DEBUG')
@@ -136,7 +136,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static_in_env')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_root','staticfiles_build')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 # Default primary key field type
