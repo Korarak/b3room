@@ -1,13 +1,13 @@
 {
     "builds": [{
-        "src": "roomprj/wsgi.py",
+        "src": "b3room/roomprj/wsgi.py",
         "use": "@vercel/python",
         "config": { "maxLambdaSize": "15mb", "runtime": "python3.10" }
     }],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "roomprj/wsgi.py"
+            "dest": "b3room/roomprj/wsgi.py"
         }
     ]
 }
