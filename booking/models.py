@@ -20,7 +20,7 @@ class room_dtl(models.Model):
         return self.room_name
 
 class book_dtl(models.Model):
-    book_id = models.AutpipoField(primary_key=True)
+    book_id = models.AutoField(primary_key=True)
     room_id = models.ForeignKey(room_dtl,null=True,on_delete=models.CASCADE)
     purposename = models.CharField(max_length=200,null=True)
     txtonfloor = models.CharField(max_length=200,null=True)
