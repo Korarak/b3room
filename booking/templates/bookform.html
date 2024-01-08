@@ -1,8 +1,13 @@
-{% include 'home.html' %} 
+{% extends "home.html" %}
+{% block content %}
 <div class="container mt-3">
+  {% if state == 'fail' %} 
+  <button onclick="history.back()" class="btn btn-danger">กลับ</button>
+  {% elif state == 'success' %} 
+  <a href="/booklist" class="btn btn-info"><i class="fa-regular fa-rectangle-list"></i>รายการจอง</a>
+  {% endif %}
   <h3>แบบฟอร์มจองใช้งานห้องโสต</h3>
   <p>กรุณากรอกข้อมูลให้ครบถ้วน</p>
-  <button onclick="history.back()" class="btn btn-danger">กลับ</button>
   <form action="" class="was-validated" method="post" onsubmit='validateForm()'> 
     {% csrf_token %}
     <div class="col-md-3">
@@ -158,6 +163,7 @@
       />
       <div class="invalid-feedback">ระบุความต้องการอื่นๆ</div>
     </div>
+    <input type="hidden" name="email" value="{{user.email}}">
     <button type="submit" class="btn btn-primary">ยืนยัน</button> <button onclick="history.back()" class="btn btn-danger">กลับ</button>
   </form>
   <div class="mt-4 p-5 bg-white text-white rounded">
@@ -202,23 +208,5 @@
     });
   });
     </script>
-  
-  <script>
-    function validateForm() {
-          const stimeRange = document.getElementById('stimeRange');
-          const etimeRange = document.getElementById('etimeRange');
-          if (stimeRange.value === stimeRange.min){
-            alert('กรุณาตั้งค่าเวลาเริ่มด้วย');
-          return false;
-          }
-          if (etimeRange.value === etimeRange.min){
-            alert('กรุณาตั้งค่าเวลาสิ้นสุดด้วย');
-          return false;
-          }
-          {% comment %} if (stimeRange.value >= etimeRange.value){
-            alert('เวลาไม่ถูกต้อง');
-          return false;
-          } {% endcomment %}
-          return true;
-        }
-    </script>
+
+    {% endblock content %}

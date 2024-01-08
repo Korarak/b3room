@@ -1,4 +1,5 @@
-{% include 'home.html' %}
+{% extends "home.html" %}
+{% block content %}
 <div class="container mt-3">
   <h3>รายการจองใช้งานห้องโสตทัศนศึกษา</h3>
   <div class="card">
@@ -33,3 +34,4 @@
     <p></p>
   </div>
 </div>
+{% endblock content %}

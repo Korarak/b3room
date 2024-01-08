@@ -1,15 +1,7 @@
-{% include 'home.html' %}
-{% include 'booksearch.html' %}
-{% load bootstrap_icons %}
+{% extends "home.html" %}
+{% block content %}
 <div class="container mt-3">
-  <div class="row">
-      <div class="col">
-        <a href="/booktable/" class="btn btn-success">{% bs_icon 'table' %}ตาราง</a>
-        <a href="/booklist/" class="btn btn-success">{% bs_icon 'card-list' %}การ์ด</a>
-      </div>
-      <div class="col">
-        {% comment %} <a href="/booklist/" class="btn btn-warning">การ์ด</a> {% endcomment %}
-      </div>
+{% include "tools.html" %}
   </div>
   <p></p> 
   <h3>รายการจองใช้งานห้องโสตทัศนศึกษา</h3>
@@ -28,11 +20,5 @@
       </div>
   </div>
     {% endfor %}
-    <div class="mt-4 p-5 bg-white text-white rounded">
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-    </div>
 </div>
+{% endblock content %}

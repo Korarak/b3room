@@ -1,12 +1,10 @@
-{% include 'home.html' %}
+{% extends "home.html" %}
 {% load static %}
-{% load bootstrap_icons %}
 {% block content %}
-<div class="container">
   <div class="row">
     <div class="col">
       <p></p>
-      <a class="btn btn-success" href="/bookform"> {% bs_icon 'journal-plus' %} จองใช้ห้อง</a>
+      <a class="btn btn-success" href="/bookform">  จองใช้ห้อง</a>
       <p></p>
     </div>
     <div class="col">
@@ -33,11 +31,11 @@
     <h3>ผลการค้นหา</h3>
     {% for fetch_book in book_detail %}
     <div class="card">
-      <div class="card-header">#{{fetch_book.book_id}} {{fetch_book.room_id.room_name}} เพื่อ {{fetch_book.purposename}}</div>
+      <div class="card-header bg-success text-white">#{{fetch_book.book_id}} {{fetch_book.room_id.room_name}} เพื่อ {{fetch_book.purposename}}</div>
       <div class="card-body">
         <h5 class="card-title">{{fetch_book.sdate}}</h5>
         <p class="card-text">
-          เริ่มเวลา : {{fetch_book.stime}} น. , ถึงเวลา : {{fetch_book.etime}} น.
+          เริ่มเวลา : <span class="badge bg-primary">{{fetch_book.stime}}</span> น. , ถึงเวลา : <span class="badge bg-primary">{{fetch_book.etime}}</span> น.
           <br>
           ผู้จอง : {{fetch_book.txtusername}}
           <br>
@@ -53,7 +51,6 @@
       <p></p>
       <p></p>
     </div>
-  </div>
   {% endif %}
 </div>
 {% endblock %}

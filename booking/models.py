@@ -22,6 +22,7 @@ class room_dtl(models.Model):
 class book_dtl(models.Model):
     book_id = models.AutoField(primary_key=True)
     room_id = models.ForeignKey(room_dtl,null=True,on_delete=models.CASCADE)
+    book_email = models.CharField(max_length=200,null=True)
     purposename = models.CharField(max_length=200,null=True)
     txtonfloor = models.CharField(max_length=200,null=True)
     sdate = models.DateField(auto_now=False, auto_now_add=False)
@@ -30,12 +31,11 @@ class book_dtl(models.Model):
     txtusername = models.CharField(max_length=200,null=True)
     txttel = models.IntegerField(null=True)
     other = models.CharField(max_length=200,null=True)
-
     def __str__(self):
         ssdate = str(self.sdate)
         sstime = str(self.stime)
         eetime = str(self.etime)
-        return self.room_id.room_name +" "+ self.txtusername +" "+ ssdate +" "+ sstime +" "+ eetime
+        return f"{self.room_id.room_name} {self.txtusername} {ssdate} {sstime} {eetime} {self.book_email}"
     
     def save(self, *args, **kwargs):
         # Call the parent class's save method

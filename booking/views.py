@@ -16,6 +16,22 @@ import requests
 import google.auth.transport.requests
 from datetime import datetime, timedelta
 
+def dashboard(request):
+    x = None
+    context = {'xxx':x}
+    if 7>6:
+        x = '1'
+        zzz = {'xxx':x}
+        return render(request,'dashboard.html',zzz)
+    return render(request,'dashboard.html',context)
+
+def mybooking(request):
+    email_book = request.user.email
+    """ print(email_book) """
+    table = book_dtl.objects.filter(book_email=email_book)
+    context = {"book_detail":table}
+    return render(request,'mybooking.html',context)
+
 def search(request):
     if request.method == "POST":
         if request.POST.get("search_date"):
@@ -66,11 +82,11 @@ def check_booking(room ,date, start_time, end_time):
     c_date = date.date()
     c_start_time = start_time.time()
     c_end_time = end_time.time()
-    """ print(type(room))
+    print(type(room))
     print(type(c_date))
     print(type(c_start_time))
     print(type(c_end_time))
-    print("+++++++++++++++++++") """
+    print("+++++++++++++++++++")
     book_fetch = book_dtl.objects.all()
     for book_data in book_fetch:
         """ 
@@ -78,7 +94,7 @@ def check_booking(room ,date, start_time, end_time):
         print(type(book_data.sdate))
         print(type(book_data.stime))
         print(type(book_data.etime)) """
-        if book_data.room_id_id == int(room) and book_data.sdate == c_date and book_data.stime <= c_end_time and book_data.etime >= c_start_time:
+        if book_data.room_id_id == int(room) and book_data.sdate == c_date and book_data.stime <= c_end_time and book_data.etime > c_start_time:
             return False
     return True
 
@@ -93,25 +109,15 @@ def bookform(request):
     context = {'room_get' : room_dtl.objects.all()}
     if request.method == 'POST':
         if request.POST.get('room_name'):
-            print(request.POST.get('room_name'))
-            print(request.POST.get('purposename'))
-            print(request.POST.get('txtonfloor'))
-            print(request.POST.get('sdate'))
             room_name = request.POST.get('room_name')
             qry_sdate = datetime.strptime(request.POST.get('sdate'), "%Y-%m-%d")
             formatted_stime = convert_minutes_to_hms(int(request.POST.get('stime')))
             minus_stime = datetime.strptime(formatted_stime, "%H:%M")
             formatted_etime = convert_minutes_to_hms(int(request.POST.get('etime')))
             minus_etime = datetime.strptime(formatted_etime, "%H:%M")
-            print((qry_sdate))
-            print((formatted_stime))
-            print((formatted_etime))
-            print(request.POST.get('txtusername'))
-            print(request.POST.get('txttel'))
-            print(request.POST.get('other'))
-            print("------------------------------------")
             table = book_dtl()
             table.room_id_id = request.POST.get('room_name')
+            table.book_email = request.POST.get('email')
             table.purposename = request.POST.get('purposename')
             table.txtonfloor = request.POST.get('txtonfloor')
             table.sdate = request.POST.get('sdate')
@@ -120,13 +126,28 @@ def bookform(request):
             table.txtusername = request.POST.get('txtusername')
             table.txttel = request.POST.get('txttel')
             table.other = request.POST.get('other')
-            if check_booking(room_name, qry_sdate, minus_stime, minus_etime):
-                print("จองได้")
-                table.save()
-                messages.success(request,'จองสำเร็จ ตรวจสอบข้อมูลที่หน้ารายการจอง')
+            print(minus_stime)
+            print(minus_etime)
+            if float(request.POST.get('stime')) - float(request.POST.get('etime')) > 0 :
+                print('error')
+                state = 'fail'
+                book_result = {'state':state}
+                messages.warning(request,'ไม่สำเร็จ เวลาไม่ถูกต้อง กด "กลับ" เพื่อแก้ไข')
+                return render(request,"bookform.html",book_result)
             else:
-                print("ชน")
-                messages.warning(request,'ไม่สำเร็จ วันเวลาดังกล่าวถูกจองไปแล้ว กด "กลับ" เพื่อแก้ไข') 
+                if check_booking(room_name, qry_sdate, minus_stime, minus_etime):
+                    print("จองได้")
+                    table.save()
+                    state = 'success'
+                    book_result = {'state':state}
+                    messages.success(request,'จองสำเร็จ ตรวจสอบข้อมูลที่หน้ารายการจอง')
+                    return render(request,"bookform.html",book_result)
+                else:
+                    print("ชน")
+                    state = 'fail'
+                    book_result = {'state':state}
+                    messages.warning(request,'ไม่สำเร็จ วันเวลาดังกล่าวถูกจองไปแล้ว กด "กลับ" เพื่อแก้ไข')
+                    return render(request,"bookform.html",book_result) 
         else:
             messages.warning(request,'ไม่สำเร็จ กรุณาตรวจสอบข้อมูล')
         return render(request,"bookform.html",context)
@@ -209,7 +230,6 @@ def google_callback(request):
         #message
         return redirect('/')
     
-
 def redirected_view(request):
     value = request.GET.get('value', None)
     if request.method == 'GET':
