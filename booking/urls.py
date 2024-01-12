@@ -1,0 +1,30 @@
+from django.urls import path,include
+from . import views
+from .views import logout_view,revoke_google_oauth
+urlpatterns = [
+    path('',views.booklist),
+    path('profile/',views.profile),
+    path('bookform/',views.bookform),
+    path('booksearch/',views.booksearch),
+    path('search/',views.search),
+    path('booklist/',views.booklist),
+    path('mybooking/',views.mybooking),
+    path('dashboard/',views.dashboard),
+    path('booktable/',views.booktable),
+    path('goconfig/',views.go_config),
+    path('room/', views.create_or_update_room, name='create_room'),
+    path('room/<int:room_id>/', views.create_or_update_room, name='update_room'),
+    path('room/delete/<int:room_id>', views.delete_room, name='delete_room'),
+    path('edit_book/<int:book_id>/', views.edit_book, name='edit_book'),
+    path('manageuser',views.mng_user),
+    path('managebook',views.mng_book),
+    path('deluser/<int:id>',views.delete_user),
+    path('restict_user/<slug:id>',views.restict_user),
+    path('bookdetail/<int:id>',views.bookdetail),
+    path('showlogin/',views.showlogin),
+    path('redirected-view/',views.redirected_view),
+    path('google/login/', views.google_login, name='google_login'),
+    path('google/callback/', views.google_callback, name='google_callback'),
+    path('revoke-google-oauth/', views.revoke_google_oauth, name='revoke_google_oauth'),
+    path('logout/', logout_view, name='logout'),
+]

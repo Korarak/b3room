@@ -1,0 +1,37 @@
+{% extends "home.html" %}
+{% block content %}
+<div class="container mt-3">
+  <h3>รายการจองใช้งานห้องโสตทัศนศึกษา</h3>
+  <div class="card">
+    <div class="card-header">{{fetch_book.room_id.room_name}} เพื่อ {{fetch_book.purposename}}</div>
+    <div class="card-body">
+      <h5 class="card-title">{{fetch_book.sdate}}</h5>
+      <p class="card-text">
+        ห้อง : {{fetch_book.room_id.room_name}}
+        <br>
+        เพื่อ : {{fetch_book.purposename}}
+        <br>
+        เริ่มเวลา : {{fetch_book.stime}} น. , ถึงเวลา : {{fetch_book.etime}} น.
+        <br>
+        ผู้จอง : {{fetch_book.txtusername}}
+        <br>
+        ข้อความบนจอ : {{fetch_book.txtonfloor}}
+        <br>
+        อื่นๆ  : {{fetch_book.other}}
+        <br>
+        ผู้จอง : {{fetch_book.txtusername}}
+        <br>
+        โทร <a href="#" class="btn btn-danger"> {{fetch_book.txttel}} </a>  
+      </p>
+    </div>
+  </div><p></p>
+  <center><button onclick="history.back()" class="btn btn-primary">กลับ</button></center>
+  <div class="mt-4 p-5 bg-white text-white rounded">
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+  </div>
+</div>
+{% endblock content %}

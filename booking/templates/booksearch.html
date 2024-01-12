@@ -1,0 +1,61 @@
+{% extends "home.html" %}
+{% load static %}
+{% block content %}
+  <div class="row">
+    <div class="col">
+      <p></p>
+      <a class="btn btn-success" href="/bookform">  จองใช้ห้อง</a>
+      <p></p>
+    </div>
+    <div class="col">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <form action="/search/" class="d-flex" method="POST">
+      {% csrf_token %}
+      <div class="input-group mt-3 mb-3">
+        <span class="btn btn-success">ค้นหา</span>
+        <input type="date" class="form-control" id="search_date" name="search_date" required>
+        <button class="btn btn-outline-success" type="submit" id="button-addon2">ค้นหา</button>
+      </div>
+    </form>
+    </div>
+    <div class="col">
+    </div>
+    <div class="col">
+    </div>
+  </div>
+{% if request.method == "POST" %}
+<div class="container mt-3">
+    <h3>ผลการค้นหา</h3>
+    {% for fetch_book in book_detail %}
+    <div class="card">
+      <div class="card-header bg-success text-white">#{{fetch_book.book_id}} {{fetch_book.room_id.room_name}} เพื่อ {{fetch_book.purposename}}</div>
+      <div class="card-body">
+        <h5 class="card-title">{{fetch_book.sdate}}</h5>
+        <p class="card-text">
+          เริ่มเวลา : <span class="badge bg-primary">{{fetch_book.stime}}</span> น. , ถึงเวลา : <span class="badge bg-primary">{{fetch_book.etime}}</span> น.
+          <br>
+          ผู้จอง : {{fetch_book.txtusername}}
+          <br>
+          โทร <a href="#" class="btn btn-danger"> {{fetch_book.txttel}} </a> 
+          <a href="/bookdetail/{{fetch_book.book_id}}" class="btn btn-primary"> รายละเอียด </a>
+          {% if user.is_staff %}
+          <a class="btn btn-warning " href="/edit_book/{{fetch_book.book_id}}" role="button"><i class="fa fa-pencil" aria-hidden="true"></i> แก้ไข</a>
+          {% endif %}
+          
+        </p>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="mt-4 p-5 bg-white text-white rounded">
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
