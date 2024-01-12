@@ -39,7 +39,12 @@
           <br>
           ผู้จอง : {{fetch_book.txtusername}}
           <br>
-          โทร <a href="#" class="btn btn-danger"> {{fetch_book.txttel}} </a> <a href="/bookdetail/{{fetch_book.book_id}}" class="btn btn-primary"> รายละเอียด </a>
+          โทร <a href="#" class="btn btn-danger"> {{fetch_book.txttel}} </a> 
+          <a href="/bookdetail/{{fetch_book.book_id}}" class="btn btn-primary"> รายละเอียด </a>
+          {% if user.is_staff %}
+          <a class="btn btn-warning " href="/edit_book/{{fetch_book.book_id}}" role="button"><i class="fa fa-pencil" aria-hidden="true"></i> แก้ไข</a>
+          {% endif %}
+          
         </p>
       </div>
     </div>

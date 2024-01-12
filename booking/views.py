@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render ,get_object_or_404,redirect
 # Create your views here.from django.shortcuts import redirect
 from django.shortcuts import redirect
 from google.oauth2 import id_token
@@ -15,6 +15,68 @@ import json
 import requests
 import google.auth.transport.requests
 from datetime import datetime, timedelta
+from .forms import RoomForm,BookForm
+
+def edit_book(request, book_id):
+    book = get_object_or_404(book_dtl, book_id=book_id)
+
+    if request.method == 'POST':
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('/managebook')  # แก้ไปที่หน้าที่คุณต้องการ
+    else:
+        form = BookForm(instance=book)
+
+    return render(request, 'edit_book.html', {'form': form, 'book': book})
+
+def restict_user(request,id):
+    table = User.objects.get(pk=id)
+    if table.is_active is True :
+        table.is_active = False
+        table.save()
+    else:
+        table.is_active = True
+        table.save()
+    return redirect('/manageuser')
+
+def mng_user(request):
+    table = User.objects.filter(is_superuser=False).order_by('-date_joined')
+    return render(request,'mnguser.html',{'users':table})
+
+def mng_book(request):
+    table = book_dtl.objects.all().order_by('-sdate')
+    return render(request,'mngbook.html',{'book_detail':table})
+
+def create_or_update_room(request, room_id=None):
+    go_room = room_dtl.objects.all()
+    instance = None
+    if room_id:
+        instance = get_object_or_404(room_dtl, pk=room_id)
+    form = RoomForm(request.POST or None, instance=instance)
+    if form.is_valid():
+        room = form.save(commit=False)
+        # กรณีที่ต้องการจัดเก็บข้อมูลหลังจากการปรับเปลี่ยน
+        # room.additional_field = 'additional_value'
+        room.save()
+        return redirect('/room')  # เปลี่ยนเป็นชื่อหน้าที่ต้องการไปหลังจากบันทึก
+    return render(request, 'room_form.html', {'form': form,'room':go_room})
+
+def delete_room(request, room_id):
+    room = get_object_or_404(room_dtl, pk=room_id)
+    room.delete()
+    return redirect('/room')
+
+def delete_user(request , id):
+    del_id = get_object_or_404(User,pk=id)
+    if del_id.delete():
+        messages.success(request,'ลบข้อมูลสำเร็จ')
+    else:
+        messages.warning(request,'ล้มเหลว')
+    return redirect('/manageuser')
+
+def go_config(request):
+    return render(request,'config.html')
 
 def dashboard(request):
     x = None

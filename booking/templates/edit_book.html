@@ -1,0 +1,14 @@
+{% extends "home.html" %}
+{% block content %}
+<br>
+<a class="btn btn-danger btn-md " href="/managebook" role="button"><i class="fa fa-arrow-left" aria-hidden="true"></i> กลับ</a>
+<br>
+<h2>Edit Book</h2>
+
+<form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Changes</button>
+</form>
+
+{% endblock content %}

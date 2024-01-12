@@ -49,11 +49,6 @@ INSTALLED_APPS = [
     'fontawesomefree',
     'booking',
 ]
-DJANGO_ICONS = {
-    "ICONS": {
-        "edit": {"name": "far fa-pencil"},
-    },
-}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -63,7 +63,7 @@
               <a
                 class="nav-link {% if request.path == '/booklist/' %}active{% endif %}"
                 href="/booklist"
-              ><i class="fa-regular fa-rectangle-list"></i> รายการจองทั้งหมด</a
+              ><i class="fa-solid fa-list"></i></i> รายการจองทั้งหมด</a
               >
             </li>
             <li class="nav-item">
@@ -88,8 +88,13 @@
 
             {% if user.is_staff %}
             <li class="nav-item dropdown">
-              <a class="nav-link" href="/dashboard">
+              <a class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}" href="/dashboard" >
                 <i class="fa-solid fa-chart-line"></i> สรุปรายงาน</a
+              >
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link {% if request.path == '/goconfig/' %}active{% endif %}" href="/goconfig" >
+                <i class="fa-solid fa-gear"></i> ตั้งค่า</a
               >
             </li>
             {% endif %}

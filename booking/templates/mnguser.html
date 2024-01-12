@@ -1,0 +1,67 @@
+{% extends "home.html" %}
+{% block content %}<br>
+<a class="btn btn-danger btn-md " href="/goconfig" role="button"><i class="fa fa-arrow-left" aria-hidden="true"></i> กลับ</a>
+<br><br>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-success">
+        <i class="fa fa-gear" aria-hidden="true"></i> จัดการข้อมูลผู้ใช้งาน
+      </h6>
+    </div>
+    <div class="card-body">
+      <div class="text-center"></div>
+
+      {% for i in users %}
+      <div class="container">
+        <div class="row gx-3 justify-content-center">
+          <div class="col-md-6">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    ID : {{i.id}} 
+                    สถานะ : {% if i.is_active %}
+                    <span class="badge bg-success">อนุมัติ</span>
+                    {% else %}
+                    <span class="badge bg-warning">ถูกระงับ</span>
+                    {% endif %}
+                    <h5 class="card-title">usename : {{i.username}}</h5>
+                    <p class="card-text">ชื่อ-สกุล : {{i.first_name}} {{i.last_name}}</p>
+                    <p class="card-text">E-mail : {{i.email}}</p>
+                    <p class="card-text">
+                        <a class="btn btn-success btn-sm " data-bs-toggle="modal" 
+                        data-bs-target="#deleteConfirmationModal" 
+                        onclick="setDeleteUrl('/restict_user/{{i.id}}')" role="button">
+                          <i class="fa fa-check" aria-hidden="true"></i> อนุมัติ</a>
+
+                        <a class="btn btn-warning btn-sm " data-bs-toggle="modal" 
+                        data-bs-target="#deleteConfirmationModal" 
+                        onclick="setDeleteUrl('/restict_user/{{i.id}}')" role="button">
+                          <i class="fa-solid fa-x"></i></i> ระงับใช้</a>
+
+                        <a class="btn btn-info btn-sm " href="/admin/auth/user/" role="button">
+                          <i class="fa fa-pencil" aria-hidden="true"></i> แก้ไข</a>
+
+                         <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" 
+                  data-bs-target="#deleteConfirmationModal" 
+                  onclick="setDeleteUrl('deluser/{{i.id}}')">
+                  <i class="fa fa-eraser" aria-hidden="true"></i> ลบ
+                    </a>
+
+
+                    </p> 
+                </div>
+              </div> 
+          </div>
+      
+          <div class="col-md-6">
+      
+          </div>
+      
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+{% include "confirm.html" %}
+{% endblock content %}
+
