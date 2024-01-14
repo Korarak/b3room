@@ -9,16 +9,17 @@
   <div class="card">
       <div class="card-header">#{{fetch_book.book_id}} วันที่ {{fetch_book.sdate}}</div>
       <div class="card-body">
-        <h5 class="card-title">{{fetch_book.room_id.room_name}} เพื่อ {{fetch_book.purposename}}</h5>
+        <h5 class="card-title"><div class="badge bg-success" >{{fetch_book.room_id.room_name}}</div> เพื่อ {{fetch_book.purposename}}</h5>
         <p class="card-text">
           เริ่มเวลา : {{fetch_book.stime}} น. , ถึงเวลา : {{fetch_book.etime}} น.
           <br>
           ผู้จอง : {{fetch_book.txtusername}}
           <br>
-          โทร <a href="#" class="btn btn-danger"> {{fetch_book.txttel}} </a> <a href="/bookdetail/{{fetch_book.book_id}}" class="btn btn-primary"> รายละเอียด </a>
+           <a href="#" class="btn btn-danger"><i class="fa fa-phone" aria-hidden="true"></i> {{fetch_book.txttel}} </a> 
+              <a href="/bookdetail/{{fetch_book.book_id}}" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i> รายละเอียด </a>
         </p>
       </div>
-  </div>
+  </div><p></p> 
     {% endfor %}
 </div>
 {% endblock content %}

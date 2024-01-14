@@ -1,7 +1,6 @@
 from django.shortcuts import render ,get_object_or_404,redirect
 from django.contrib.auth.decorators import user_passes_test
 # Create your views here.from django.shortcuts import redirect
-from django.shortcuts import redirect
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from django.conf import settings
@@ -10,6 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib  import messages
 from .models import *
+from django.db.models import Count
 #import environ
 import os
 import json
@@ -24,7 +24,6 @@ def is_superuser(user):
 @user_passes_test(is_superuser)
 def edit_book(request, book_id):
     book = get_object_or_404(book_dtl, book_id=book_id)
-
     if request.method == 'POST':
         form = BookForm(request.POST, instance=book)
         if form.is_valid():
@@ -32,7 +31,6 @@ def edit_book(request, book_id):
             return redirect('/managebook')  # แก้ไปที่หน้าที่คุณต้องการ
     else:
         form = BookForm(instance=book)
-
     return render(request, 'edit_book.html', {'form': form, 'book': book})
 
 def restict_user(request,id):
@@ -86,13 +84,8 @@ def go_config(request):
     return render(request,'config.html')
 
 def dashboard(request):
-    x = None
-    context = {'xxx':x}
-    if 7>6:
-        x = '1'
-        zzz = {'xxx':x}
-        return render(request,'dashboard.html',zzz)
-    return render(request,'dashboard.html',context)
+    room_counts = room_dtl.objects.annotate(count=Count('book_dtl'))
+    return render(request,'dashboard.html',{'room_counts': room_counts})
 
 def mybooking(request):
     email_book = request.user.email
@@ -151,18 +144,8 @@ def check_booking(room ,date, start_time, end_time):
     c_date = date.date()
     c_start_time = start_time.time()
     c_end_time = end_time.time()
-    print(type(room))
-    print(type(c_date))
-    print(type(c_start_time))
-    print(type(c_end_time))
-    print("+++++++++++++++++++")
     book_fetch = book_dtl.objects.all()
     for book_data in book_fetch:
-        """ 
-        print((book_data.room_id_id))
-        print(type(book_data.sdate))
-        print(type(book_data.stime))
-        print(type(book_data.etime)) """
         if book_data.room_id_id == int(room) and book_data.sdate == c_date and book_data.stime <= c_end_time and book_data.etime > c_start_time:
             return False
     return True

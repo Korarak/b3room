@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import time
+from datetime import datetime
 import requests
 
 class UserProfile(models.Model):
@@ -40,16 +42,23 @@ class book_dtl(models.Model):
     def save(self, *args, **kwargs):
         # Call the parent class's save method
         super(book_dtl, self).save(*args, **kwargs)
-
+        ssdate = self.sdate
+        datetime_variable = datetime.strptime(ssdate, "%Y-%m-%d")
+        formatted_date = datetime_variable.strftime("%Y-%m-%d")
+        sstime = self.stime
+        formatted_sstime = sstime.strftime("%H:%M")
+        eetime = self.etime
+        formatted_eetime = eetime.strftime("%H:%M")
         # Send a Line Notify message when a new record is created
-        # FdaOcdTVodq3nDa0pgT5fSANGaamCeJuq0VqYYmZQsG
-        access_token = ''
+        # X2xmoUfIyzJAuMZCskASMJPjKTAmvY5na4aUR3qUTPu
+        # 6v1H9LUkWtKgmxbnaZLD4q3pKfTc2jvyGAjTZjvUFqZ
+        access_token = 'X2xmoUfIyzJAuMZCskASMJPjKTAmvY5na4aUR3qUTPu'
         message = f' {self.room_id.room_name}\n'
         message += f'ใช้เพื่อ: {self.purposename}\n'
         message += f'ข้อความบนเวที: {self.txtonfloor}\n'  # Replace with the actual field names
-        message += f'วันที่จอง: {str(self.sdate)}\n'  # Replace with the actual field names
-        message += f'เริ่มเวลา: {str(self.stime)}\n'
-        message += f'ถึงเวลา: {str(self.etime)}\n'
+        message += f'วันที่จอง: {str(formatted_date)}(ปป-ดด-วว)\n'  # Replace with the actual field names
+        message += f'เริ่มเวลา: {str(formatted_sstime)}\n'
+        message += f'ถึงเวลา: {str(formatted_eetime)}\n'
         message += f'ผู้จอง: {self.txtusername}\n'
         message += f'โทร: {self.txttel}\n'
         # Add more fields as needed

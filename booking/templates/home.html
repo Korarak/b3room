@@ -109,12 +109,14 @@
             {% endif %} {% if user.is_authenticated %}
             <li class="nav-item dropdown">
               <a href="{% url 'logout' %}" class="btn btn-danger">
+                <i class="fa-solid fa-right-from-bracket"></i>
                 ออกจากระบบ</a
               >
             </li>
             {% else %}
             <li class="nav-item dropdown">
               <a class="nav-link" href="/showlogin">
+                <i class="fa-solid fa-right-to-bracket"></i>
                  เข้าสู่ระบบ</a
               >
             </li>

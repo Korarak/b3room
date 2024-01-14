@@ -1,12 +1,61 @@
 {% extends "home.html" %}
 {% block content %}
-{{user.email}}
-{{user.email}}
-{{user.email}}
-{{user.email}}
-{{user.email}}
-{{user.email}}
-{{user.email}}
-{{xxx}}
-{% if xxx is not none %}ok{% else %}noooo{% endif %}
+<p></p>
+<p></p>
+<div class="row ">
+    <div class="col-md-6">
+
+        <div class="card">
+            <div class="card-header bg-success text-white"><i class="fa-solid fa-chart-simple"></i> สถิตการใช้ห้อง แยกตามห้อง / จำนวนครั้ง</div>
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <p class="card-text">
+                <ul class="list-group">
+                    {% for room_count in room_counts %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ room_count.room_name }}
+                    <span class="badge badge-lg bg-primary badge-pill">{{ room_count.count }}</span>
+                    {% endfor %}
+                  </ul>
+              </p>
+            </div>
+          </div>
+        </div>
+
+    <div class="col-md-6">
+
+        <div class="card">
+            <div class="card-header bg-success text-white"><i class="fa-solid fa-chart-simple"></i> สถิตการใช้ห้อง แยกตามห้อง / จำนวนครั้ง</div>
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <p class="card-text">
+                <ul class="list-group">
+                    {% for room_count in room_counts %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ room_count.room_name }}
+                    <span class="badge badge-lg bg-primary badge-pill">{{ room_count.count }}</span>
+                    {% endfor %}
+                  </ul>
+              </p>
+            </div>
+          </div>
+        </div>
+
+</div>
+
+{% comment %} <div class="row ">
+
+    <div class="col-md-6">
+
+    </div>
+
+    <div class="col-md-6">
+
+    </div>
+
+</div> {% endcomment %}
+
+  <p></p>
+  
+
 {% endblock content %}
